@@ -6,19 +6,24 @@ import { IPost } from '../models/IPosts';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import AvatarIcon from "@mui/icons-material/Person2"
 import Typography from '@mui/material/Typography';
-import { Context } from '..';
+import { PostService } from '../services/post.service';
 
 export default function Feed() {
     const [posts, setPosts] = React.useState<IPost[]>([]);
-    const { store } = React.useContext(Context);
-    const RefreshPosts = async () => {
-        const data = await store.GetPosts();
-        if (data === undefined) {
-            return setPosts([]);
-        }
-        setPosts(data);
-    };
-    RefreshPosts();
+
+    // React.useEffect(() => {
+    //     const GetUsers = async () => {
+    //         const response = await PostService.GetPosts();
+    //         if (response.data === undefined) {
+    //             return;
+    //         }
+    //         setPosts(response.data);
+    //     }
+    //     GetUsers()
+    //         .catch(console.error);
+    //     console.log(posts);
+    // });
+
     return (
         <List>
             {posts.map(({ title, content, user }, index) => (
@@ -27,7 +32,7 @@ export default function Feed() {
                         <AvatarIcon />
                     </ListItemAvatar>
                     <ListItemText
-                        primary={title}
+                        primary={index + title}
                         secondary={
                             <React.Fragment>
                                 <Typography

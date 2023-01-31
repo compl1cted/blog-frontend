@@ -16,21 +16,22 @@ export default function Navbar() {
     return (
         <BottomNavigation value={value} onChange={handleChange}>
             <BottomNavigationAction
-                value="/add_post"
+                value="add_post"
                 label="Add Post"
-                icon={<Link className="custom-link" to="/"><PostIcon /></Link>}
+                icon={<Link to="/"><PostIcon /></Link>}
             />
             <BottomNavigationAction
-                value="/users"
+                value="users"
                 label="Users"
                 icon={<Link to="/users"><SearchIcon /></Link>}
             />
             <BottomNavigationAction
-                value="/feed" label="Feed"
+                value="feed"
+                label="Feed"
                 icon={<Link to="/feed"><ListIcon /></Link>}
             />
             <BottomNavigationAction
-                value="/profile"
+                value="profile"
                 label="Profile"
                 icon={<Link to="/profile"><PersonIcon /> </Link>}
             />

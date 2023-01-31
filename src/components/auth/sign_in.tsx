@@ -34,11 +34,11 @@ const SignIn = () => {
     const [username_or_email, setUsernameOrEmail] = useState<string>();
     const [password, setPassword] = useState<string>();
     const [output, setOutput] = useState<string>();
-    const { store } = React.useContext(Context);
+    const { authStore } = React.useContext(Context);
 
     const Submit = async () => {
         if (!username_or_email || !password) return;
-        const response = await store.SignIn(username_or_email, password);
+        const response = await authStore.SignIn(username_or_email, password);
         setOutput(response);
         console.log(response);
     };

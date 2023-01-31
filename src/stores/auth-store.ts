@@ -3,11 +3,8 @@ import axios from "axios";
 import { IUser } from "../models/IUser";
 import { AuthService } from "../services/auth.service";
 import { AuthResponse } from "../models/response/auth.response";
-import { UserService } from "../services/user.service";
-import { IPost } from "../models/IPosts";
-import { PostService } from "../services/post.service";
 
-export default class Store {
+export default class AuthStore {
     user = {} as IUser;
     isAuth = false;
     isLoading = false;
@@ -82,37 +79,6 @@ export default class Store {
             console.error(error);
         } finally {
             this.SetLoading(false);
-        }
-    }
-
-    async GetUsers(): Promise<IUser[] | undefined> {
-        try {
-            const response = await UserService.GetUsers();
-            return response.data;
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
-
-    async AddPost(post: IPost) {
-        try {
-            const response = PostService.AddPost(post);
-            return "Post added!";
-        } catch (error) {
-            console.error(error);
-            return "Error occured!";
-        }
-    }
-    async GetPosts() {
-        try {
-            const response = await PostService.GetPosts();
-            const data = response.data;
-            console.log(data);
-            return data;
-        }
-        catch (error) {
-            console.error(error);
         }
     }
 }

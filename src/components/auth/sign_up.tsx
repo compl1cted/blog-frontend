@@ -35,11 +35,11 @@ const SignUp = () => {
     const [email, setEmail] = useState<string>();
     const [password, setPassword] = useState<string>();
     const [output, setOutput] = useState<string>();
-    const { store } = React.useContext(Context);
+    const { authStore } = React.useContext(Context);
 
     const Submit = async () => {
         if (!username || !email || !password) return;
-        const response = await store.SignUp(username, email, password);
+        const response = await authStore.SignUp(username, email, password);
         setOutput(response);
         if (response === "Signed Up") {
 
