@@ -1,10 +1,16 @@
-import { IPost } from "../models/IPosts";
+import { makeAutoObservable } from "mobx";
+import { IPost } from "../models/interfaces/IPost";
 import { PostService } from "../services/post.service";
 
-export default class PostStore {
+export class PostStore {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
+
     async AddPost(post: IPost) {
         try {
-            const response = PostService.AddPost(post);
+            await PostService.AddPost(post);
             return "Post added!";
         } catch (error) {
             console.error(error);
@@ -14,9 +20,7 @@ export default class PostStore {
     async GetPosts() {
         try {
             const response = await PostService.GetPosts();
-            const data = response.data;
-            console.log(data);
-            return data;
+            return response.data;
         }
         catch (error) {
             console.error(error);

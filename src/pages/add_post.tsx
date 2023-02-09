@@ -1,46 +1,34 @@
-import * as React from 'react';
+import { useContext } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import PostAdd from '@mui/icons-material/PostAdd';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from "react";
 import { FormLabel } from '@mui/material';
-import { Context } from '../../index';
 import { observer } from 'mobx-react-lite';
-
-function Copyright(props: any) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                OOP Practice:)
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import { Context } from '..';
+import { IPost } from '../models/interfaces/IPost';
+import { toJS } from 'mobx';
+import { GetCurrentTime } from '../utils/time';
 
 const theme = createTheme();
 
-const SignIn = () => {
-    const [username_or_email, setUsernameOrEmail] = useState<string>();
-    const [password, setPassword] = useState<string>();
+export const AddPost = observer(() => {
+    const [post, setPost] = useState<IPost>({} as IPost);
     const [output, setOutput] = useState<string>();
-    const { authStore } = React.useContext(Context);
+    const { postStore, authStore } = useContext(Context);
 
     const Submit = async () => {
-        if (!username_or_email || !password) return;
-        const response = await authStore.SignIn(username_or_email, password);
+        const user = toJS(authStore.user);
+        const date = GetCurrentTime();
+        setPost({ ...post, User: user, Date: date } as IPost);
+        const response = await postStore.AddPost(post);
         setOutput(response);
-        console.log(response);
     };
 
     return (
@@ -56,56 +44,48 @@ const SignIn = () => {
                     }}
                 >
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
+                        <PostAdd />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        Add a post
                     </Typography>
                     <FormLabel>{output || ''}</FormLabel>
                     <Box component="form" onSubmit={Submit} noValidate sx={{ mt: 1 }}>
                         <TextField
-                            onChange={e => setUsernameOrEmail(e.target.value)}
-                            value={username_or_email || ''}
+                            onChange={e => setPost({ ...post, Title: e.target.value } as IPost)}
+                            value={post.Title || ''}
                             margin="normal"
                             required
                             fullWidth
-                            id="email"
-                            label="Username Or Email Address"
-                            name="username_or_email"
+                            id="title"
+                            label="Title"
+                            name="title"
                             autoFocus
                         />
                         <TextField
-                            onChange={e => setPassword(e.target.value)}
-                            value={password || ''}
+                            multiline={true}
+                            rows={3}
+                            onChange={e => setPost({ ...post, Content: e.target.value } as IPost)}
+                            value={post.Content || ''}
                             margin="normal"
                             required
                             fullWidth
-                            name="password"
-                            label="Password"
-                            type="password"
-                            id="password"
+                            name="content"
+                            label="Content"
+                            id="content"
                         />
                         <Button
                             onClick={Submit}
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{ mt: 6, mb: 2 }}
                         >
-                            Sign In
+                            Post
                         </Button>
-                        <Grid container>
-                            <Grid item>
-                                <Link href="/sign_up" variant="body2">
-                                    {"Don't have an account? Sign Up"}
-                                </Link>
-                            </Grid>
-                        </Grid>
                     </Box>
                 </Box>
-                <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>
         </ThemeProvider>
     );
 }
-
-export default observer(SignIn);
+);

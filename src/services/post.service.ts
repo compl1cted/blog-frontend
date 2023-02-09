@@ -1,6 +1,6 @@
-import $api from "../interceptors/interceptors";
+import { $api } from "../interceptors/interceptors";
 import { AxiosResponse } from "axios"
-import { IPost } from "../models/IPosts";
+import { IPost } from "../models/interfaces/IPost";
 
 export class PostService {
     static async AddPost(newPost: IPost): Promise<AxiosResponse<IPost>> {

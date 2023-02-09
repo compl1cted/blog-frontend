@@ -1,51 +1,39 @@
-import { Context } from './index';
-import React, { useContext, useEffect } from 'react';
 import './App.css';
-import SignIn from './components/auth/sign_in';
-import Layout from './components/layout';
+import { Context } from './index';
+import { useContext, useEffect } from 'react';
+import { Route, BrowserRouter, Routes, Navigate } from "react-router-dom"
+import { PrivateRoutes, PublicRoutes } from './routes/router';
 import { observer } from 'mobx-react-lite';
-import SignUp from './components/auth/sign_up';
-import { Routes, Route } from "react-router-dom"
-import AddPost from './components/add_post';
-import Users from './components/users';
-import Feed from "./components/feed"
-import Profile from './components/profile';
-import { redirect } from "react-router-dom";
+import Navbar from './components/navbar';
 
-function App() {
-  const { store } = useContext(Context);
+export const App = observer(() => {
+  const { authStore } = useContext(Context);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      store.CheckAuth();
+      authStore.CheckAuth().then();
     }
-  }, []);
+  }, [authStore.isAuth]);
 
-  if (store.isLoading) {
+  if (authStore.isLoading) {
     return <div>Loading...</div>
   }
 
-  if (!store.isAuth)
-    return (
-      <Routes>
-        <Route path="/" element={<SignIn></SignIn>}></Route>
-        <Route path="/sign_up" element={<SignUp></SignUp>}></Route>
-      </Routes>
-    );
+  const AppRoutes = authStore.isAuth ? PrivateRoutes : PublicRoutes;
+  const DefaultRoute = authStore.isAuth ? "/" : "/sign_in";
 
   return (
-    <>
+    <BrowserRouter>
       <Routes>
-
-        <Route path='/' element={<AddPost />}></Route>
-        <Route path="/users" element={<Users />}></Route>
-        <Route path="/feed" element={<Feed />}></Route>
-        <Route path="/profile" element={<Profile />}></Route>
+        {
+          AppRoutes.map(({ path, component: Component, props }) =>
+            <Route key={path} path={path} element={<Component props={props}></Component>}></Route>
+          )
+        }
+        <Route key={AppRoutes.length + 1} path="*" element={<Navigate to={DefaultRoute} />}></Route>
       </Routes>
-      <Layout></Layout>
-      { }
-    </>
+      {authStore.isAuth ? <Navbar></Navbar> : null}
+    </BrowserRouter >
   );
 }
-
-export default observer(App);
+);

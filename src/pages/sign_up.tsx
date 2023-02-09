@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,19 +8,16 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useState } from "react";
-import { FormLabel, Link } from '@mui/material';
-import { Context } from '../../index';
+import { useState, useContext } from "react";
+import { FormLabel } from '@mui/material';
+import { Context } from '../index';
+import { Link } from "react-router-dom"
 import { observer } from 'mobx-react-lite';
-import { Link as RouterLink } from "react-router-dom"
 
 function Copyright(props: any) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                OOP Practice:)
-            </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
         </Typography>
@@ -30,21 +26,17 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-const SignUp = () => {
+export const SignUp = observer(() => {
     const [username, setUsername] = useState<string>();
     const [email, setEmail] = useState<string>();
     const [password, setPassword] = useState<string>();
     const [output, setOutput] = useState<string>();
-    const { authStore } = React.useContext(Context);
+    const { authStore } = useContext(Context);
 
     const Submit = async () => {
         if (!username || !email || !password) return;
         const response = await authStore.SignUp(username, email, password);
         setOutput(response);
-        if (response === "Signed Up") {
-
-        }
-        console.log(response);
     };
 
     return (
@@ -117,9 +109,9 @@ const SignUp = () => {
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <RouterLink to="/">
+                                <Link to="/sign_in">
                                     Already have an account? Sign in
-                                </RouterLink>
+                                </Link>
                             </Grid>
                         </Grid>
                     </Box>
@@ -129,5 +121,4 @@ const SignUp = () => {
         </ThemeProvider >
     );
 }
-
-export default observer(SignUp);
+);

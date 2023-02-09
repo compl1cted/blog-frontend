@@ -1,17 +1,11 @@
-import React, { createContext } from 'react';
-import ReactDOM from 'react-dom/client';
+import { App } from './App';
 import './index.css';
-import App from './App';
-import AuthStore from './stores/auth-store';
-import UserStore from './stores/user-store';
-import { BrowserRouter } from 'react-router-dom';
-import PostStore from './stores/post-store';
-
-interface State {
-  authStore: AuthStore;
-  userStore: UserStore;
-  postStore: PostStore;
-}
+import { createContext } from 'react';
+import ReactDOM from 'react-dom/client';
+import { AuthStore } from './stores/auth.store';
+import { UserStore } from './stores/user.store';
+import { PostStore } from './stores/post.store';
+import { State } from './types/state.interface';
 
 const authStore = new AuthStore();
 const userStore = new UserStore();
@@ -26,16 +20,13 @@ export const Context = createContext<State>({
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
-  <React.StrictMode>
-    <Context.Provider value={{
-      authStore,
-      userStore,
-      postStore
-    }}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Context.Provider>
-  </React.StrictMode>
+  <Context.Provider value={{
+    authStore,
+    userStore,
+    postStore
+  }}>
+    <App />
+  </Context.Provider>
 );

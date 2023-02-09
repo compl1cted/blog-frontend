@@ -1,40 +1,52 @@
-import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search"
 import PostIcon from "@mui/icons-material/PostAdd"
 import ListIcon from "@mui/icons-material/List"
 import PersonIcon from "@mui/icons-material/Person"
-import React from "react";
-import { Link } from "react-router-dom"
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import Paper from "@mui/material/Paper";
+import { BottomNavigation, BottomNavigationAction } from "@mui/material";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom"
 
 export default function Navbar() {
-    const [value, setValue] = React.useState(window.location.pathname);
-
+    const [value, setValue] = useState("/");
+    const navigate = useNavigate();
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
     };
 
     return (
-        <BottomNavigation value={value} onChange={handleChange}>
-            <BottomNavigationAction
-                value="add_post"
-                label="Add Post"
-                icon={<Link to="/"><PostIcon /></Link>}
-            />
-            <BottomNavigationAction
-                value="users"
-                label="Users"
-                icon={<Link to="/users"><SearchIcon /></Link>}
-            />
-            <BottomNavigationAction
-                value="feed"
-                label="Feed"
-                icon={<Link to="/feed"><ListIcon /></Link>}
-            />
-            <BottomNavigationAction
-                value="profile"
-                label="Profile"
-                icon={<Link to="/profile"><PersonIcon /> </Link>}
-            />
-        </BottomNavigation>
+        <Box sx={{ pb: 7 }}>
+            <CssBaseline />
+            <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+                <BottomNavigation value={value} onChange={handleChange}>
+                    <BottomNavigationAction
+                        value="add_post"
+                        label="Add Post"
+                        icon={< PostIcon />}
+                        onClick={() => navigate("/")}
+                    />
+                    <BottomNavigationAction
+                        value="users"
+                        label="Users"
+                        icon={<SearchIcon />}
+                        onClick={() => navigate("/people")}
+                    />
+                    <BottomNavigationAction
+                        value="feed"
+                        label="Feed"
+                        icon={<ListIcon />}
+                        onClick={() => navigate("/feed")}
+                    />
+                    <BottomNavigationAction
+                        value="profile"
+                        label="Profile"
+                        icon={<PersonIcon />}
+                        onClick={() => navigate("/profile")}
+                    />
+                </BottomNavigation>
+            </Paper>
+        </Box>
     );
 }
