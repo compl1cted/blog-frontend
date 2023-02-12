@@ -12,7 +12,7 @@ export class AuthService {
     }
 
     static async Logout(): Promise<void> {
-        await $api.get<AuthResponse>("/api/auth/logout");
+        await $api.get<AuthResponse>("/api/auth/logout", { withCredentials: true });
     }
 
     static async Refresh(): Promise<AxiosResponse<AuthResponse>> {

@@ -5,16 +5,15 @@ import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import { IPost } from '../../models/interfaces/IPost';
+import { IComment } from '../../models/interfaces/IComment';
 import { useNavigate } from 'react-router-dom';
-import PostIcon from "@mui/icons-material/Newspaper"
 
-interface PostProps {
-    post: IPost;
+interface CommentProps {
+    comment: IComment;
 }
 
-export const Post = (props: PostProps) => {
-    const { Id, Title, Content, Date, User } = props.post;
+export const Comment = (props: CommentProps) => {
+    const { Id, Text, Date, User } = props.comment;
     const navigate = useNavigate();
 
     return (
@@ -22,12 +21,11 @@ export const Post = (props: PostProps) => {
             <CardActionArea component="a" onClick={() => navigate(`/posts/${Id}`)}>
                 <Card sx={{ display: 'flex', textAlign: "center" }}>
                     <CardContent sx={{ flex: 1 }}>
-                        <PostIcon />
                         <Typography component="h2" variant="h5">
-                            {Title}
+                            {Text}
                         </Typography>
                         <Typography variant="subtitle1" paragraph>
-                            {Content}
+                            {User.Username}
                         </Typography>
                         <Typography variant="subtitle1" color="text.secondary">
                             {Date}

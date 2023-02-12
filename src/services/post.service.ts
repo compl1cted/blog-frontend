@@ -12,4 +12,7 @@ export class PostService {
     static async GetPosts(): Promise<AxiosResponse<IPost[]>> {
         return $api.get<IPost[]>("/api/posts/");
     }
+    static async GetPostsByUserId(id: number): Promise<AxiosResponse<IPost[]>> {
+        return $api.get<IPost[]>(`/api/posts/user/${id}`);
+    }
 }

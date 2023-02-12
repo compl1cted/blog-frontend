@@ -5,13 +5,14 @@ import { Route, BrowserRouter, Routes, Navigate } from "react-router-dom"
 import { PrivateRoutes, PublicRoutes } from './routes/router';
 import { observer } from 'mobx-react-lite';
 import Navbar from './components/navbar';
+import { IUser } from './models/interfaces/IUser';
 
 export const App = observer(() => {
   const { authStore } = useContext(Context);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      authStore.CheckAuth().then();
+      authStore.CheckAuth();
     }
   }, [authStore.isAuth]);
 
@@ -20,7 +21,7 @@ export const App = observer(() => {
   }
 
   const AppRoutes = authStore.isAuth ? PrivateRoutes : PublicRoutes;
-  const DefaultRoute = authStore.isAuth ? "/" : "/sign_in";
+  const DefaultRoute = authStore.isAuth ? "/feed" : "/sign_in";
 
   return (
     <BrowserRouter>

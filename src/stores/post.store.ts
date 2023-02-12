@@ -26,4 +26,24 @@ export class PostStore {
             console.error(error);
         }
     }
+
+    async GetPostsByUserId(id: number) {
+        try {
+            const response = await PostService.GetPostsByUserId(id);
+            return response.data;
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+
+    async GetPost(id: number) {
+        try {
+            const response = await PostService.GetPost(id);
+            return response.data;
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
 }

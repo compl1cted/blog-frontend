@@ -10,11 +10,15 @@ export class AuthStore {
     isLoading = false;
 
     constructor() {
-        makeAutoObservable(this);
+        makeAutoObservable(this, {}, { deep: true });
     }
 
     SetUser(user: IUser) {
         this.user = user;
+    }
+
+    GetUser = () => {
+        return toJS(this.user);
     }
 
     SetAuth(isAuth: boolean) {
@@ -25,7 +29,7 @@ export class AuthStore {
         this.isLoading = isLoading;
     }
 
-    async SignIn(username_or_email: string, password: string) {
+    SignIn = async (username_or_email: string, password: string) => {
         try {
             const response = await AuthService.SignIn(username_or_email, password);
             const data = response.data;
@@ -55,7 +59,7 @@ export class AuthStore {
         }
     }
 
-    async Logout() {
+    Logout = async () => {
         try {
             await AuthService.Logout();
             localStorage.removeItem("token");

@@ -26,8 +26,8 @@ export const AddPost = observer(() => {
     const Submit = async () => {
         const user = toJS(authStore.user);
         const date = GetCurrentTime();
-        setPost({ ...post, User: user, Date: date } as IPost);
-        const response = await postStore.AddPost(post);
+        const newPost = { ...post, User: user, Date: date } as IPost;
+        const response = await postStore.AddPost(newPost);
         setOutput(response);
     };
 

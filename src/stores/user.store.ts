@@ -7,6 +7,16 @@ export class UserStore {
         makeAutoObservable(this);
     }
 
+    async GetUser(id: number) {
+        try {
+            const response = await UserService.GetUser(id);
+            return response.data;
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+
     async GetUsers() {
         try {
             const response = await UserService.GetUsers();

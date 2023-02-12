@@ -5,15 +5,19 @@ import { AddPost } from "../pages/add_post";
 import { People } from "../pages/people";
 import { Feed } from "../pages/feed";
 import { Profile } from "../pages/profile";
+import { PostPage } from "../pages/post";
+import { UserPage } from "../pages/user";
 
 export const PublicRoutes: IRoute[] = [
-    { path: "/sign_in", component: SignIn, exact: true },
-    { path: "/sign_up", component: SignUp, exact: true },
+    { path: "/sign_in", component: SignIn },
+    { path: "/sign_up", component: SignUp },
 ];
 
 export const PrivateRoutes: IRoute[] = [
-    { path: "/", component: AddPost, exact: true },
-    { path: "/people", component: People, exact: true },
-    { path: "/feed", component: Feed, exact: true },
-    { path: "/profile", component: Profile, exact: true },
+    { path: "/", component: AddPost },
+    { path: "/people", component: People },
+    { path: "/feed", component: Feed },
+    { path: "/users/:id", component: UserPage },
+    { path: "/posts/:id", component: PostPage },
+    { path: "/profile", component: Profile },
 ];
