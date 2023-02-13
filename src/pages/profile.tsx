@@ -44,6 +44,10 @@ export const Profile = observer(() => {
                         <Typography component="h1" variant="h5" align="center">
                             {user.Email}
                         </Typography>
+                        <Typography component="h1" variant="h5" align="center">
+                            Status: {user.IsActivated ? "Account activated!" : "Activate your account!"}
+                        </Typography>
+
 
                         <Button
                             onClick={async () => await authStore.Logout()}

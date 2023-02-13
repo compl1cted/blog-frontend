@@ -14,7 +14,7 @@ export const App = observer(() => {
     if (localStorage.getItem("token")) {
       authStore.CheckAuth();
     }
-  }, [authStore.isAuth]);
+  }, []);
 
   if (authStore.isLoading) {
     return <div>Loading...</div>
