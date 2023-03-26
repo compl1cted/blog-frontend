@@ -7,7 +7,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import Typography from '@mui/material/Typography';
@@ -17,6 +16,7 @@ import { CommentList } from "../components/lists/comment.list";
 import { IComment } from "../models/interfaces/IComment";
 import { toJS } from "mobx";
 import { GetCurrentTime } from "../utils/time";
+import { IUser } from "../models/interfaces/IUser";
 
 const theme = createTheme();
 
@@ -24,33 +24,38 @@ export const PostPage = () => {
     const { id } = useParams();
     const { postStore, commentStore, authStore } = useContext(Context);
     const [post, setPost] = useState<IPost>({} as IPost);
+    const [author, setAuthor] = useState<IUser>({} as IUser);
     const [comments, setComments] = useState<IComment[]>([] as IComment[]);
     const [newComment, setNewComment] = useState<IComment>({ User: toJS(authStore.user) } as IComment);
+    const [updateComments, setUpdateComments] = useState<boolean>(false);
+
+    const LoadComments = async () => {
+        const currentComments = await commentStore.GetCommentsByPostId(Number(id));
+        setComments(currentComments);
+    }
+
+    const Submit = async () => {
+        if (newComment.Text === "") return;
+        newComment.Date = GetCurrentTime();
+        commentStore.AddComment(newComment);
+        setUpdateComments(true)
+    }
 
     useEffect(() => {
         (async () => {
             const currentPost = await postStore.GetPost(Number(id));
             if (!currentPost) return;
             setPost(currentPost);
+            setAuthor(currentPost.User)
             setNewComment({ ...newComment, Post: currentPost })
-
-            if (!currentPost.Id) return;
-            const currentComments = await commentStore.GetCommentsByPostId(currentPost.Id);
-            console.log(currentComments);
-            // if (!currentComments) return;
-            setComments(currentComments);
+            await LoadComments();
+            setUpdateComments(false)
         })();
-    }, []);
-
-    const Submit = async () => {
-        if (newComment.Text === "") return;
-        newComment.Date = GetCurrentTime();
-        commentStore.AddComment(newComment);
-    }
+    }, [updateComments]);
 
     return (
         <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs">
+            <Container component="main" maxWidth="md">
                 <CssBaseline />
                 <Box
                     sx={{
@@ -63,15 +68,20 @@ export const PostPage = () => {
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                         <NewspaperIcon />
                     </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Post
-                    </Typography>
                     <Box component="form" noValidate sx={{ mt: 1 }}>
-                        <Typography component="h1" variant="h4" align="center">
+                        <Typography component="h1" variant="h3" align="center">
                             {post.Title}
                         </Typography>
-                        <Typography component="h1" variant="h5" align="center">
+                        <Typography component="h1" variant="h5" align="center" marginTop={"25px"}>
                             {post.Content}
+                        </Typography>
+                        <Typography component="h1" variant="h6" align="center" marginTop={"25px"}>
+                            Author: {author.Username}
+                        </Typography>
+                    </Box>
+                    <Box marginTop={"25px"}>
+                        <Typography component="h1" variant="h4" align="center">
+                            Comments
                         </Typography>
 
                         <TextField
@@ -93,10 +103,11 @@ export const PostPage = () => {
                         >
                             Comment
                         </Button>
+
                     </Box>
                 </Box>
             </Container>
             <CommentList comments={comments}></CommentList>
-        </ThemeProvider>
+        </ThemeProvider >
     );
 }

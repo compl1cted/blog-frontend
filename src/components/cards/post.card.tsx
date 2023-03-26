@@ -32,6 +32,9 @@ export const Post = (props: PostProps) => {
                         <Typography variant="subtitle1" color="text.secondary">
                             {Date}
                         </Typography>
+                        <Typography variant="h6" color="text.primary">
+                            {User.Username}
+                        </Typography>
                     </CardContent>
                     {/* <CardMedia
                         component="img"

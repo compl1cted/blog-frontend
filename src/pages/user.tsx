@@ -53,9 +53,6 @@ export const UserPage = () => {
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                         <PersonIcon />
                     </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Post
-                    </Typography>
                     <Box component="form" noValidate sx={{ mt: 1 }}>
                         <Typography component="h1" variant="h4" align="center">
                             {user.Username}
@@ -63,7 +60,12 @@ export const UserPage = () => {
                     </Box>
                 </Box>
             </Container>
-            <PostList posts={posts}></PostList>
+            {posts.length === 0 ?
+                <Typography component="h1" variant="h4" align="center" marginTop={"25px"}>
+                    {"This user doesn't have any posts!"}
+                </Typography> :
+                <PostList posts={posts}></PostList>}
+
         </ThemeProvider>
     );
 }
