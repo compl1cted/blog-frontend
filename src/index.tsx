@@ -1,7 +1,7 @@
-import { App } from './App';
 import './index.css';
+import { App } from './App';
 import { createContext } from 'react';
-import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import { AuthStore } from './stores/auth.store';
 import { UserStore } from './stores/user.store';
 import { PostStore } from './stores/post.store';
@@ -20,11 +20,7 @@ export const Context = createContext<State>({
   commentStore
 });
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-
-root.render(
+createRoot(document.getElementById('root') as HTMLElement).render(
   <Context.Provider value={{
     authStore,
     userStore,

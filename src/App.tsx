@@ -5,7 +5,6 @@ import { Route, BrowserRouter, Routes, Navigate } from "react-router-dom"
 import { PrivateRoutes, PublicRoutes } from './routes/router';
 import { observer } from 'mobx-react-lite';
 import Navbar from './components/navbar';
-import { IUser } from './models/interfaces/IUser';
 
 export const App = observer(() => {
   const { authStore } = useContext(Context);
