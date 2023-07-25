@@ -4,7 +4,7 @@ import { useContext, useEffect } from 'react';
 import { Route, BrowserRouter, Routes, Navigate } from "react-router-dom"
 import { PrivateRoutes, PublicRoutes } from './routes/router';
 import { observer } from 'mobx-react-lite';
-import Navbar from './components/navbar';
+import { Navbar } from './components/navbar/navbar';
 
 export const App = observer(() => {
   const { authStore } = useContext(Context);

@@ -14,7 +14,7 @@ export class PostStore {
             return "Post added!";
         } catch (error) {
             console.error(error);
-            return "Error occured!";
+            return `Error occured! Details: ${error}`;
         }
     }
     async GetPosts() {

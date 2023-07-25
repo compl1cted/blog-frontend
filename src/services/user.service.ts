@@ -1,4 +1,4 @@
-import { $api } from "../interceptors/interceptors";
+import { $api } from "../interceptors/auth.interceptor";
 import { AxiosResponse } from "axios"
 import { IUser } from "../models/interfaces/IUser";
 
